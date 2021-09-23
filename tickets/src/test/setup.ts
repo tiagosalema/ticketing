@@ -35,7 +35,7 @@ global.signin = () => {
   // completely isolated) we will need to build a cookie from scratch:
 
   const payload = {
-    id: 'ksadhfas',
+    id: new mongoose.Types.ObjectId().toHexString(), // random user every times global.signin() gets called
     email: 'test@test.com',
   };
   const token = jwt.sign(payload, process.env.JWT_KEY!);
