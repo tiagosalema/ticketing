@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest } from '../middleware/validate-request';
+import { validateRequest, BadRequestError } from '@udemy-ts-tickets/common';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user';
-import { BadRequestError } from './../errors/bad-request-error';
 import { Password } from './../utils/password';
 
 const router = express.Router();
