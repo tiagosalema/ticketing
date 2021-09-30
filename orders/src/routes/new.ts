@@ -1,7 +1,7 @@
+import { natsWrapper } from '../nats-wrapper';
 import express, { Request, Response } from 'express';
 import {
   requireAuth,
-  validateRequest,
   NotFoundError,
   BadRequestError,
 } from '@udemy-ts-tickets/common';
@@ -9,6 +9,7 @@ import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import { Ticket } from '../models/ticket';
 import { Order, OrderStatus } from '../models/order';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 
 const router = express.Router();
 
@@ -47,6 +48,16 @@ router.post(
     });
 
     await order.save();
+
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     res.status(201).send(order);
   },
