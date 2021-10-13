@@ -5,7 +5,7 @@ import {
 } from '@udemy-ts-tickets/common';
 
 class OrderCreatedPublisher extends Publisher<OrderCreatedEvent> {
-  subject = Subjects.OrderCreated;
+  readonly subject = Subjects.OrderCreated;
 }
 
 export { OrderCreatedPublisher };

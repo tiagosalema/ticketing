@@ -5,6 +5,7 @@ import {
   validateRequest,
   NotFoundError,
   NotAuthorizedError,
+  BadRequestError,
 } from '@udemy-ts-tickets/common';
 import { Ticket } from '../models/ticket';
 import { natsWrapper } from './../nats-wrapper';
@@ -31,6 +32,9 @@ router.put(
     if (ticket.userId != req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
+    if (ticket.orderId) {
+      throw new BadRequestError('Cannot update a ticket that is being ordered');
+    }
 
     const { title, price } = req.body;
 
@@ -42,6 +46,7 @@ router.put(
 
     new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
+      version: ticket.version,
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
