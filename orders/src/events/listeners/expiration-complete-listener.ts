@@ -21,6 +21,7 @@ class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
     if (!order) {
       throw new NotFoundError();
     }
+    if (order.status == OrderStatus.Complete) return;
 
     order.set({
       status: OrderStatus.Cancelled,
