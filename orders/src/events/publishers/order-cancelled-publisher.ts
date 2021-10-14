@@ -5,7 +5,7 @@ import {
 } from '@udemy-ts-tickets/common';
 
 class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
-  subject = Subjects.OrderCancelled;
+  readonly subject = Subjects.OrderCancelled;
 }
 
 export { OrderCancelledPublisher };

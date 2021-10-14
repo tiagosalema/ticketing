@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { natsWrapper } from './nats-wrapper';
 import { TicketCreatedListener } from './events/listeners/ticket-crated-listener';
 import { TicketUpdatedListener } from './events/listeners/ticket-updated-listener';
-import { natsWrapper } from './nats-wrapper';
+import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -35,6 +36,7 @@ const start = async () => {
 
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
+    new ExpirationCompleteListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     // auth-mongo-srv is the name of the mongo-db service deployment

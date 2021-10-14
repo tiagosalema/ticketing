@@ -9,7 +9,7 @@ import { Ticket } from '../../models/ticket';
 import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-  subject = Subjects.OrderCreated;
+  readonly subject = Subjects.OrderCreated;
   queueGroupName = queueGroupName;
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {

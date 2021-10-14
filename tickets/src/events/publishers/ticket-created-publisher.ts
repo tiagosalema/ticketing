@@ -5,7 +5,7 @@ import {
 } from '@udemy-ts-tickets/common';
 
 class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
-  subject = Subjects.TicketCreated;
+  readonly subject = Subjects.TicketCreated;
 }
 
 export { TicketCreatedPublisher };

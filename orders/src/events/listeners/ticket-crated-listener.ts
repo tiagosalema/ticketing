@@ -9,7 +9,7 @@ import { Ticket } from '../../models/ticket';
 import { queueGroupName } from './queue-group-name';
 
 class TicketCreatedListener extends Listener<TicketCreatedEvent> {
-  subject = Subjects.TicketCreated;
+  readonly subject = Subjects.TicketCreated;
   queueGroupName = queueGroupName;
 
   async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
