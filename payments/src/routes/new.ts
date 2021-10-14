@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { natsWrapper } from '../nats-wrapper';
 import {
   requireAuth,
   BadRequestError,
@@ -10,9 +9,11 @@ import {
   OrderStatus,
 } from '@udemy-ts-tickets/common';
 import { Order } from '../models/order';
+import { stripe } from '../stripe';
 
-import mongoose from 'mongoose';
-import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { Payment } from '../models/payment';
+import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -36,7 +37,25 @@ router.post(
       throw new BadRequestError('Cannot pay for a cancelled order');
     }
 
-    res.send({ success: 'yiiis' });
+    const charge = await stripe.charges.create({
+      amount: order.price * 100,
+      currency: 'gbp',
+      source: token,
+    });
+
+    const payment = Payment.build({
+      orderId,
+      stripeId: charge.id,
+    });
+    await payment.save();
+
+    new PaymentCreatedPublisher(natsWrapper.client).publish({
+      id: payment.id,
+      orderId: payment.orderId,
+      stripeId: payment.stripeId,
+    });
+
+    res.status(201).send({ payment });
   },
 );
 
