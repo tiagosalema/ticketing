@@ -4,6 +4,7 @@ import { Ticket } from '../../models/ticket';
 
 it('fetches the order', async () => {
   const ticket = Ticket.build({
+    id: 'alsdkfjas',
     title: 'concert',
     price: 20,
   });
@@ -28,6 +29,7 @@ it('fetches the order', async () => {
 
 it('returns error if user tries to fetch another users order', async () => {
   const ticket = Ticket.build({
+    id: 'alsdkfjas',
     title: 'concert',
     price: 20,
   });
