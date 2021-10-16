@@ -10,7 +10,7 @@ const Signout = () => {
     onSuccess: () => Router.push('/'),
   });
 
-  useEffect(doRequest, []);
+  useEffect(() => doRequest(), []);
 
   return <div>Signing out...</div>;
 };
