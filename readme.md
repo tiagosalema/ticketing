@@ -1,24 +1,3 @@
-1. [Overview](#overview)
-2. [Project architecture](#architecture)
-3. [How to get this project up and running](#initialise)
-4. [Notes](#notes)
-
-   4.1. [ NATS Streaming Server](#nats)
-
-   4.2. [ Client](#client)
-
-   4.3. [ Payment](#payment)
-
-   4.4. [ Define DNS](#dns)
-
-   4.5. [ Hidden variables](#variables)
-
-5. [How can this app be improved?](#improvements)
-
-<a name="overview"></a>
-
-# Overview
-
 Hi there, you microservices enthusiast! 🤠
 
 This is a project that was developed using as reference the [Microservices with Node JS and React](https://www.udemy.com/course/microservices-with-node-js-and-react/) course, by [Stephen Grider](https://twitter.com/ste_grider).
@@ -35,23 +14,21 @@ A ticket can be reserved for the duration of 15 minutes, in which case the order
 
 While the order for a ticket has the status `awaiting payment`, the ticket will not be visible in the Tickets table.
 
-<a name="architecture"></a>
-
 # Project architecture
 
 - each microservice is held in its own [Docker](https://www.docker.com/) container
 - containers orchestrated using [Kubernetes](https://kubernetes.io/)
 - Kubernetes continuous development facilitated by [Skaffold](https://skaffold.dev/), which handles the workflow for building, pushing, and deploying the app
-- NATS Streaming Server to establish a communication environment between microservices by means of subscription to events (messages)
+- [NATS Streaming Server](https://docs.nats.io/nats-streaming-concepts/intro) to establish a communication environment between microservices by means of subscription to events (messages)
+- [Next](https://nextjs.org/) on the frontend side, with some minimal [Bootstrap](https://getbootstrap.com/)
 - [Node](https://nodejs.dev/) on the backend side, using [Express](https://expressjs.com/) to handle the routing
 - [express-validator](https://express-validator.github.io/docs/) middleware to validate the data before the request is sent
 - [MongoDB](https://www.mongodb.com/) to store the data
 - [mongoose](https://www.mongoose.com/) as an ODM library for MongoDB
 - payments were developed using [Stripe](https://stripe.com/en-gb).
-- Redis
-- Queueing orders awaiting payment with [Bull](https://optimalbits.github.io/bull/)
-- Testing using [Jest](https://jestjs.io/) and supertest
-- the server was written using Typescript and the client Javascript
+- [Redis](https://redis.io/) and [Bull](https://optimalbits.github.io/bull/) were used to store and queue the orders, respectively, while they were awaiting payment
+- Testing using [Jest](https://jestjs.io/) and [supertest](https://github.com/visionmedia/supertest)
+- the server was written using Typescript and the client with Javascript
 
 This project is comprised of 6 microservices:
 
@@ -73,8 +50,6 @@ It is a social network with the goal of connecting developers across the world b
 
 Some endpoints are private. That means that an authentication is required. JWT was used to accomplish this.
 
-<a name="initialise"></a>
-
 # How to get this project up and running
 
 - ## Add secrets to the following containers:
@@ -83,19 +58,13 @@ Some endpoints are private. That means that an authentication is required. JWT w
 - run `skaffold dev` in the root directory
 - Have fun!
 
-<a name="notes"></a>
-
 # Notes
-
-<a name="nats"></a>
 
 ## NATS Streaming Server
 
 - It was created, in each microservice, a file that exports a singleton of a class that allows not only the connection of the NATS streaming server but also the very client, which is returned when the connection is established, that will enable the creation of event listeners and publishers.
 
 - A graceful shutdown was implemented in order to prevent the crushed client to stay open until the heart beat time is completed.
-
-<a name="client"></a>
 
 ## Client
 
@@ -105,21 +74,15 @@ Some endpoints are private. That means that an authentication is required. JWT w
 
 If that's the case, put the mouse focus on the image and type `thisisunsafe`.
 
-<a name="payment"></a>
-
 ## Payment
 
 - In order to test the application and create a successful payment use any of [these](https://stripe.com/docs/testing#cards) test card numbers when paying a ticket, a valid expiration date in the future, and any random CVC number.
-
-<a name="dns"></a>
 
 ## Define DNS
 
 - In order to have the site accessible in a human readable domain, we must translate the IP address to e.g. `ticketing.dev`. To do so, we must define
 
-<a name="variables"></a>
-
-## Hidden variable
+## Hidden variables
 
 - In order for the application to work, it is necessary to add 2 secrets that weren't published in this Github repo:
 
@@ -138,8 +101,6 @@ If that's the case, put the mouse focus on the image and type `thisisunsafe`.
     ```console
     kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=<your-key>
     ```
-
-<a name="improvements"></a>
 
 # How can this app be improved?
 
