@@ -1,3 +1,7 @@
+# Table of contents
+
+1. [Project architecture](#architecture)
+
 Hi there, you microservices enthusiast! 🤠
 
 This is a project that was developed using as reference the [Microservices with Node JS and React](https://www.udemy.com/course/microservices-with-node-js-and-react/) course, by [Stephen Grider](https://twitter.com/ste_grider).
@@ -13,6 +17,8 @@ Every purchased ticket will be available under "My orders".
 A ticket can be reserved for the duration of 15 minutes, in which case the order will have the status `awaiting payment`. If the ticket is purchased during that period, the status will get updated to `completed`. Otherwise, if the time expires, it will update to `cancelled`.
 
 While the order for a ticket has the status `awaiting payment`, the ticket will not be visible in the Tickets table.
+
+<a name="architecture"></a>
 
 # Project architecture
 
