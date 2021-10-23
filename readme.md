@@ -10,21 +10,23 @@ Every purchased ticket will be available under "My orders".
 
 ![orders](./img/orders.png)
 
-When a ticket is reserved, it will be for 15 minutes available for the payment to be completed. During that time, it will have the status `awaiting payment`. Its status will update to `completed` as soon as the payment is completed, or `cancelled` if the time expires.
+A ticket can be reserved for the duration of 15 minutes, in which case the order will have the status `awaiting payment`. If the ticket is purchased during that period, the status will get updated to `completed`. Otherwise, if the time expires, it will update to `cancelled`.
+
+While the order for a ticket has the status `awaiting payment`, the ticket will not be visible in the Tickets table.
 
 # Project architecture
 
-- containers by [Docker](https://www.docker.com/)
-- containers orchestration using [Kubernetes](https://kubernetes.io/)
-  - ingress
+- each microservice is held in its own [Docker](https://www.docker.com/) container
+- containers orchestrated using [Kubernetes](https://kubernetes.io/)
 - Kubernetes continuous development facilitated by [Skaffold](https://skaffold.dev/), which handles the workflow for building, pushing, and deploying the app
 - NATS Streaming Server to establish a communication environment between microservices by means of subscription to events (messages)
-- Node on the backend side, using Express to do the routing
-- Express validator to ...
-- Mongodb to store the data
-- Mongoose to facilitate the CRUD operations
+- [Node](https://nodejs.dev/) on the backend side, using [Express](https://expressjs.com/) to handle the routing
+- [express-validator](https://express-validator.github.io/docs/) middleware to validate the data before the request is sent
+- [MongoDB](https://www.mongodb.com/) to store the data
+- [mongoose](https://www.mongoose.com/) as an ODM library for MongoDB
 - payments were developed using [Stripe](https://stripe.com/en-gb).
 - Redis
+- Queueing orders awaiting payment with [Bull](https://optimalbits.github.io/bull/)
 - Testing using [Jest](https://jestjs.io/) and supertest
 - the server was written using Typescript and the client Javascript
 
@@ -50,7 +52,7 @@ Some endpoints are private. That means that an authentication is required. JWT w
 
 # How to get this project up and running
 
-- ## Add secrets to the following pods:
+- ## Add secrets to the following containers:
   -
 - Create the DNS to ticketing.dev by adding the following line to the
 - run `skaffold dev` in the root directory
@@ -80,9 +82,25 @@ If that's the case, put the mouse focus on the image and type `thisisunsafe`.
 
 - In order to have the site accessible in a human readable domain, we must translate the IP address to e.g. `ticketing.dev`. To do so, we must define
 
-## Environment variables
+## Hidden variable
 
-- Secrets...
+- In order for the application to work, it is necessary to add 2 secrets that weren't published in this Github repo:
+
+  - The JWT secret
+
+    Execute the following command:
+
+    ```console
+    kubectl create secret generic jwt-secret --from-literal=JWT_KEY=<your-key>
+    ```
+
+  - The Stripe secret key
+
+    Login to your Stripe account and go to your [dashboard](https://dashboard.stripe.com/test/apikeys) to copy the Secret key to your clipboard. Then, execute the following command:
+
+    ```console
+    kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=<your-key>
+    ```
 
 # How can this app be improved?
 

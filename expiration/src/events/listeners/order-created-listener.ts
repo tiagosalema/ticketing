@@ -1,9 +1,7 @@
 import { Message } from 'node-nats-streaming';
-import {
-  Listener,
-  OrderCreatedEvent,
-  Subjects,
-} from '@udemy-ts-tickets/common';
+
+import { Listener, OrderCreatedEvent, Subjects } from '@udemy-ts-tickets/common';
+
 import { queueGroupName } from './queue-group-name';
 import { expirationQueue } from '../../queues/expiration-queue';
 

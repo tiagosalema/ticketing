@@ -12,7 +12,8 @@ const expirationQueue = new Queue<Payload>('order:expiration', {
   },
 });
 
-expirationQueue.process(async job => {
+// the job will be processed only 15 minutes after it was added in the order created listener
+expirationQueue.process(job => {
   new ExpirationCompletePublisher(nats.client).publish({
     orderId: job.data.orderId,
   });

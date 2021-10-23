@@ -42,7 +42,7 @@ const OrderShow = ({ order, currentUser }) => {
         stripeKey='pk_test_51JkXGYB5FXVBLraOK72qETTLzV4ux0VGdjYC1rFf393HTwrbwBN43p0JsCS7gxBp8vJ3mGPF0lonjQUu6IUulS8p00NQyRRQEw'
         amount={order.ticket.price * 100}
         email={currentUser.email}
-        currency='gbp'
+        currency='GBP'
       />
       {errors}
     </div>
