@@ -1,6 +1,23 @@
-# Table of contents
+1. [Overview](#overview)
+2. [Project architecture](#architecture)
+3. [How to get this project up and running](#initialise)
+4. [Notes](#notes)
 
-1. [Project architecture](#architecture)
+   4.1. [ NATS Streaming Server](#nats)
+
+   4.2. [ Client](#client)
+
+   4.3. [ Payment](#payment)
+
+   4.4. [ Define DNS](#dns)
+
+   4.5. [ Hidden variables](#variables)
+
+5. [How can this app be improved?](#improvements)
+
+<a name="overview"></a>
+
+# Overview
 
 Hi there, you microservices enthusiast! 🤠
 
@@ -56,6 +73,8 @@ It is a social network with the goal of connecting developers across the world b
 
 Some endpoints are private. That means that an authentication is required. JWT was used to accomplish this.
 
+<a name="initialise"></a>
+
 # How to get this project up and running
 
 - ## Add secrets to the following containers:
@@ -64,13 +83,19 @@ Some endpoints are private. That means that an authentication is required. JWT w
 - run `skaffold dev` in the root directory
 - Have fun!
 
+<a name="notes"></a>
+
 # Notes
+
+<a name="nats"></a>
 
 ## NATS Streaming Server
 
 - It was created, in each microservice, a file that exports a singleton of a class that allows not only the connection of the NATS streaming server but also the very client, which is returned when the connection is established, that will enable the creation of event listeners and publishers.
 
 - A graceful shutdown was implemented in order to prevent the crushed client to stay open until the heart beat time is completed.
+
+<a name="client"></a>
 
 ## Client
 
@@ -80,13 +105,19 @@ Some endpoints are private. That means that an authentication is required. JWT w
 
 If that's the case, put the mouse focus on the image and type `thisisunsafe`.
 
+<a name="payment"></a>
+
 ## Payment
 
 - In order to test the application and create a successful payment use any of [these](https://stripe.com/docs/testing#cards) test card numbers when paying a ticket, a valid expiration date in the future, and any random CVC number.
 
+<a name="dns"></a>
+
 ## Define DNS
 
 - In order to have the site accessible in a human readable domain, we must translate the IP address to e.g. `ticketing.dev`. To do so, we must define
+
+<a name="variables"></a>
 
 ## Hidden variable
 
@@ -107,6 +138,8 @@ If that's the case, put the mouse focus on the image and type `thisisunsafe`.
     ```console
     kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=<your-key>
     ```
+
+<a name="improvements"></a>
 
 # How can this app be improved?
 
