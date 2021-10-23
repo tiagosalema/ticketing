@@ -1,13 +1,14 @@
 import { Message } from 'node-nats-streaming';
 import mongoose from 'mongoose';
-import { OrderCreatedEvent, OrderStatus } from '@udemy-ts-tickets/common';
+
+import { OrderCreatedEvent, OrderStatus, nats } from '@udemy-ts-tickets/common';
+
 import { OrderCreatedListener } from '../order-created-listener';
-import { natsWrapper } from '../../../nats-wrapper';
 import { Ticket } from '../../../models/ticket';
 
 const setup = async () => {
   // Create an instance of the listener
-  const listener = new OrderCreatedListener(natsWrapper.client);
+  const listener = new OrderCreatedListener(nats.client);
 
   // Create and save a ticket
   const ticket = Ticket.build({

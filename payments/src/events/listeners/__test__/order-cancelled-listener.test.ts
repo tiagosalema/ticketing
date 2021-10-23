@@ -1,14 +1,13 @@
 import mongoose from 'mongoose';
-
-import { natsWrapper } from '../../../nats-wrapper';
-import { OrderCancelledListener } from '../order-cancelled-listener';
-
 import { Message } from 'node-nats-streaming';
-import { OrderStatus, OrderCancelledEvent } from '@udemy-ts-tickets/common';
+
+import { OrderStatus, OrderCancelledEvent, nats } from '@udemy-ts-tickets/common';
+
+import { OrderCancelledListener } from '../order-cancelled-listener';
 import { Order } from '../../../models/order';
 
 const setup = async () => {
-  const listener = new OrderCancelledListener(natsWrapper.client);
+  const listener = new OrderCancelledListener(nats.client);
 
   const order = Order.build({
     id: new mongoose.Types.ObjectId().toHexString(),

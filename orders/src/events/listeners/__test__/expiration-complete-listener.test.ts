@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
-import { OrderStatus, ExpirationCompleteEvent } from '@udemy-ts-tickets/common';
+import {
+  OrderStatus,
+  ExpirationCompleteEvent,
+  nats,
+} from '@udemy-ts-tickets/common';
 import { ExpirationCompleteListener } from '../expiration-complete-listener';
-import { natsWrapper } from '../../../nats-wrapper';
 import { Order } from '../../../models/order';
 import { Ticket } from '../../../models/ticket';
 
 const setup = async () => {
-  const listener = new ExpirationCompleteListener(natsWrapper.client);
+  const listener = new ExpirationCompleteListener(nats.client);
 
   const ticket = Ticket.build({
     id: new mongoose.Types.ObjectId().toHexString(),
@@ -49,10 +52,10 @@ it('emit an OrderCancelled event', async () => {
 
   await listener.onMessage(data, msg);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalled();
+  expect(nats.client.publish).toHaveBeenCalled();
 
   const eventData = JSON.parse(
-    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1],
+    (nats.client.publish as jest.Mock).mock.calls[0][1],
   );
   expect(eventData.id).toEqual(order.id);
 });

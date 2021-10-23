@@ -1,7 +1,9 @@
 import request from 'supertest';
+
+import { nats } from '@udemy-ts-tickets/common';
+
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
-import { natsWrapper } from './../../nats-wrapper';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
   const res = await request(app).post('/api/tickets').send({});
@@ -89,7 +91,7 @@ it('publishes an event', async () => {
     })
     .expect(201);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalled();
+  expect(nats.client.publish).toHaveBeenCalled();
 });
 
 it.todo('emits an order created event');

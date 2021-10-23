@@ -1,6 +1,7 @@
-import { natsWrapper } from './../../nats-wrapper';
 import mongoose from 'mongoose';
 import request from 'supertest';
+
+import { nats } from '@udemy-ts-tickets/common';
 import { app } from '../../app';
 import { Order, OrderStatus } from '../../models/order';
 import { Ticket } from '../../models/ticket';
@@ -65,5 +66,5 @@ it('emits an order created event', async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalled();
+  expect(nats.client.publish).toHaveBeenCalled();
 });

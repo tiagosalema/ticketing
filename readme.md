@@ -1,9 +1,3 @@
-This microservices app was inspired by this course, taught by Stephen Grider.
-
-This project has many things that can be continued, including:
-
-- check out last video of the course.
-
 Hi there, you microservices enthusiast! 🤠
 
 This is a project that was developed using as reference the [Microservices with Node JS and React](https://www.udemy.com/course/microservices-with-node-js-and-react/) course, by [Stephen Grider](https://twitter.com/ste_grider).
@@ -25,12 +19,13 @@ When a ticket is reserved, it will be for 15 minutes available for the payment t
   - ingress
 - Kubernetes continuous development facilitated by [Skaffold](https://skaffold.dev/), which handles the workflow for building, pushing, and deploying the app
 - NATS Streaming Server to establish a communication environment between microservices by means of subscription to events (messages)
-- Nodejs on the backend side, using Expressjs to do the routing
+- Node on the backend side, using Express to do the routing
+- Express validator to ...
 - Mongodb to store the data
 - Mongoose to facilitate the CRUD operations
 - payments were developed using [Stripe](https://stripe.com/en-gb).
 - Redis
-- Testing using [Jest](https://jestjs.io/)
+- Testing using [Jest](https://jestjs.io/) and supertest
 - the server was written using Typescript and the client Javascript
 
 This project is comprised of 6 microservices:
@@ -88,3 +83,8 @@ If that's the case, put the mouse focus on the image and type `thisisunsafe`.
 ## Environment variables
 
 - Secrets...
+
+# How can this app be improved?
+
+- point 1
+- point 2

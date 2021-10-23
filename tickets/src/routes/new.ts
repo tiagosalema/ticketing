@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@udemy-ts-tickets/common';
+
+import { requireAuth, validateRequest, nats } from '@udemy-ts-tickets/common';
+
 import { Ticket } from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
-import { natsWrapper } from './../nats-wrapper';
 
 const router = express.Router();
 
@@ -12,9 +13,7 @@ router.post(
   requireAuth,
   [
     body('title').not().isEmpty().withMessage('Title is required'),
-    body('price')
-      .isFloat({ gt: 0 })
-      .withMessage('Price must be greater than 0'),
+    body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -27,7 +26,7 @@ router.post(
     });
     await ticket.save();
 
-    await new TicketCreatedPublisher(natsWrapper.client).publish({
+    await new TicketCreatedPublisher(nats.client).publish({
       id: ticket.id,
       version: ticket.version,
       title: ticket.title,

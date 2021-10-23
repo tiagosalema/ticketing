@@ -1,9 +1,10 @@
-import { natsWrapper } from './../../nats-wrapper';
 import request from 'supertest';
+import mongoose from 'mongoose';
+
+import { nats } from '@udemy-ts-tickets/common';
 import { app } from '../../app';
 import { Order, OrderStatus } from '../../models/order';
 import { Ticket } from '../../models/ticket';
-import mongoose from 'mongoose';
 
 const buildTicket = async () => {
   const ticket = Ticket.build({
@@ -63,5 +64,5 @@ it('emits an order with cancelled event', async () => {
     .set('Cookie', user)
     .expect(200);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalled();
+  expect(nats.client.publish).toHaveBeenCalled();
 });

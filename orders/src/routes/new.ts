@@ -1,12 +1,14 @@
-import { natsWrapper } from '../nats-wrapper';
 import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import mongoose from 'mongoose';
+
 import {
   requireAuth,
   NotFoundError,
   BadRequestError,
+  nats,
 } from '@udemy-ts-tickets/common';
-import { body } from 'express-validator';
-import mongoose from 'mongoose';
+
 import { Ticket } from '../models/ticket';
 import { Order, OrderStatus } from '../models/order';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
@@ -49,7 +51,7 @@ router.post(
 
     await order.save();
 
-    new OrderCreatedPublisher(natsWrapper.client).publish({
+    new OrderCreatedPublisher(nats.client).publish({
       id: order.id,
       version: order.version,
       userId: order.userId,

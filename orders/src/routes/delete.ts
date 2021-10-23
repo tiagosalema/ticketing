@@ -1,11 +1,12 @@
+import express, { Request, Response } from 'express';
 import {
   requireAuth,
   NotFoundError,
   NotAuthorizedError,
+  nats,
 } from '@udemy-ts-tickets/common';
-import express, { Request, Response } from 'express';
+
 import { Order, OrderStatus } from '../models/order';
-import { natsWrapper } from '../nats-wrapper';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
 
 const router = express.Router();
@@ -28,7 +29,7 @@ router.post(
     order.status = OrderStatus.Cancelled;
     await order.save();
 
-    new OrderCancelledPublisher(natsWrapper.client).publish({
+    new OrderCancelledPublisher(nats.client).publish({
       id: order.id,
       version: order.version,
       ticket: {
