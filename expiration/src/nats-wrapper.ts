@@ -22,6 +22,12 @@ class NatsWrapper {
       this.client.on('error', err => {
         reject(err);
       });
+      this.client.on('close', () => {
+        console.log('NATS connection closed!');
+        process.exit();
+      });
+      process.on('SIGINT', () => this.client.close());
+      process.on('SIGTERM', () => this.client.close());
     });
   }
 }

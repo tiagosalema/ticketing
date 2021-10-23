@@ -42,7 +42,7 @@ router.post(
 
     const order = Order.build({
       userId: req.currentUser!.id,
-      status: OrderStatus.Created,
+      status: OrderStatus.AwaitingPayment,
       expiresAt: expiration,
       ticket,
     });

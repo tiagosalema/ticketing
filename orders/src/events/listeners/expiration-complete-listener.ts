@@ -31,7 +31,7 @@ class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
     new OrderCancelledPublisher(this.client).publish({
       id: order.id,
       ticket: {
-        id: order.ticket.id,
+        id: order.ticket.toString(),
       },
       version: order.version,
     });

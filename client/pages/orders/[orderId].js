@@ -34,7 +34,8 @@ const OrderShow = ({ order, currentUser }) => {
   return (
     <div>
       <p>
-        Time left until order expires: {minLeft}:{secLeft}
+        Time left until order expires: {minLeft}:
+        {secLeft.toLocaleString(undefined, { minimumIntegerDigits: 2 })}
       </p>
       <StripeCheckout
         token={({ id }) => doRequest({ token: id })}
@@ -50,9 +51,7 @@ const OrderShow = ({ order, currentUser }) => {
 
 OrderShow.getInitialProps = async (context, client, currentUser) => {
   const { orderId } = context.query;
-  console.log({ orderId });
   const { data: order } = await client.get(`/api/orders/${orderId}`);
-  console.log({ order });
   return { order };
 };
 

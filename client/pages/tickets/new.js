@@ -39,29 +39,31 @@ const NewTicket = () => {
       <h1>Create a ticket</h1>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
-          <label htmlFor=''>
-            Title
-            <input
-              value={title}
-              onChange={handleSetTitle}
-              className='form-control'
-            />
-          </label>
+          <div>
+            <label htmlFor=''>
+              Title
+              <input
+                value={title}
+                onChange={handleSetTitle}
+                className='form-control'
+              />
+            </label>
+          </div>
+          <div className='my-2'>
+            <label htmlFor=''>
+              Price{' '}
+              <input
+                value={price}
+                onBlur={onBlur}
+                onChange={handleSetPrice}
+                className='form-control'
+              />
+            </label>
+          </div>
+          <button className='btn btn-primary'>Create ticket</button>
         </div>
-        <div className='form-group'>
-          <label htmlFor=''>
-            Price{' '}
-            <input
-              value={price}
-              onBlur={onBlur}
-              onChange={handleSetPrice}
-              className='form-control'
-            />
-          </label>
-        </div>
-        {errors}
-        <button className='btn btn-primary'>Create ticket</button>
       </form>
+      {errors}
     </div>
   );
 };

@@ -16,15 +16,12 @@ const Orders = ({ orders }) => (
         {orders?.map(order => (
           <tr key={order.ticket.id}>
             <td>
-              <Link
-                href='./tickets/[ticketId]'
-                as={`/tickets/${order.ticket.id}`}
-              >
+              <Link href='./orders/[orderId]' as={`/orders/${order.id}`}>
                 <a className='nav-link'>{order.ticket.title}</a>
               </Link>
             </td>
             <td>{order.ticket.price}</td>
-            <td>{order.status}</td>
+            <td>{order.status.replace(':', ' ')}</td>
           </tr>
         ))}
       </tbody>
@@ -34,7 +31,6 @@ const Orders = ({ orders }) => (
 
 Orders.getInitialProps = async (context, client) => {
   const { data: orders } = await client.get('/api/orders');
-  console.log({ orders });
   return { orders };
 };
 

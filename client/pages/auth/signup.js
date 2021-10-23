@@ -31,20 +31,20 @@ const Signup = () => {
             className='form-control'
           />
         </label>
-      </div>
-      <div className='form-group'>
-        <label>
-          Password
-          <input
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type='password'
-            className='form-control'
-          />
-        </label>
-        {errors}
+        <div className='my-2'>
+          <label>
+            Password
+            <input
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              type='password'
+              className='form-control'
+            />
+          </label>
+        </div>
         <button className='btn btn-primary'>Sign up</button>
       </div>
+      {errors}
     </form>
   );
 };
