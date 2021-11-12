@@ -28,27 +28,17 @@ While the order for a ticket has the status `awaiting payment`, the ticket will 
 - payments were developed using [Stripe](https://stripe.com/en-gb).
 - [Redis](https://redis.io/) and [Bull](https://optimalbits.github.io/bull/) were used to store and queue the orders, respectively, while they were awaiting payment
 - Testing using [Jest](https://jestjs.io/) and [supertest](https://github.com/visionmedia/supertest)
-- the server was written using Typescript and the client with Javascript
 
 This project is comprised of 6 microservices:
 
-| Microservice | Description                |
-| ------------ | -------------------------- |
-| Auth         | Handles the authentication |
-| client       | Text                       |
-| expiration   | Text                       |
-| orders       | Text                       |
-| payments     | Text                       |
-| tickets      | Text                       |
-
-It is a social network with the goal of connecting developers across the world by enabling them to:
-
-- create their own profile
-- visit other developer profiles
-- add posts
-- comment and like other developer posts
-
-Some endpoints are private. That means that an authentication is required. JWT was used to accomplish this.
+| Microservice | Description                 |
+| ------------ | --------------------------- |
+| Auth         | Handles the authentication  |
+| client       | The client                  |
+| expiration   | Handles the orders time out |
+| orders       | Handles the orders          |
+| payments     | Handles the payments        |
+| tickets      | Handles the tickets         |
 
 # How to get this project up and running
 
@@ -104,5 +94,6 @@ If that's the case, put the mouse focus on the image and type `thisisunsafe`.
 
 # How can this app be improved?
 
-- point 1
-- point 2
+- Add https with [cert-manager](https://cert-manager.io/);
+- Add complementary services e.g. email support confirming when a ticket is purchased. A third party email provider like [Mailchimp](https://mailchimp.com/) or [MailerLite](https://www.mailerlite.com/) may be used;
+- Include in all services a Dockerfile for production, which will build the service before deploying it.
